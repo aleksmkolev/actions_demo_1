@@ -11,14 +11,17 @@ jobs:
  
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-vestion: [18.x, 20.x, 22.x]
 
     steps:
     - name: checkout the repository
       uses: actions/checkout@v4
-    - name: Use Node.js 20
+    - name: Use Node.js ${{matrix.node-vestion}}
       uses: actions/setup-node@v4
       with:
-        node-version: 20
+        node-version: ${{matrix.node-vestion}}
     - name: Install dependencies
       run: npm install
     - name: Run unit tests
@@ -36,6 +39,10 @@ jobs:
       with:
         node-version: 20
     - name: Install dependencies
+      run: npm install
+    - name: Run security tests
+      run: npm audit
+
       run: npm install
     - name: Run security tests
       run: npm audit
